@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class BinarySearchTree<E extends Comparable<E>>
+public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
 {
     protected Node head;
     public static final int INORDER_MODE = 0;
@@ -15,7 +15,7 @@ public class BinarySearchTree<E extends Comparable<E>>
             return head;
         else
         {
-            BinarySearchTree<E> cursor = this;
+            WinstonLeeBinarySearchTree<E> cursor = this;
             if (cursor.head.obj.compareTo(data) > 0)
                 return cursor.head.right.search(data);
             else
@@ -29,7 +29,7 @@ public class BinarySearchTree<E extends Comparable<E>>
             head = new Node(data);
         else if (search(data) == null)
         {
-            BinarySearchTree<E> cursor = this;
+            WinstonLeeBinarySearchTree<E> cursor = this;
             if (cursor.head.obj.compareTo(data) > 0)
                 cursor.head.right.add(data);
             else
@@ -94,17 +94,63 @@ public class BinarySearchTree<E extends Comparable<E>>
         return nodes.iterator();
     }
 
+    public void remove(E data)
+    {
+        Node cursor = search(data);
+        if (cursor != null)
+        {
+            switch(cursor.deg())
+            {
+                case 0:
+                    cursor.left = null;
+                    cursor.right = null;
+                    cursor.obj = null;
+                    break;
+                case 1:
+                    if (cursor.left.head.obj != null)
+                    {
+                        cursor.obj = cursor.left.head.obj;
+                        cursor.right = cursor.left.head.right;
+                        cursor.left = cursor.left.head.left;
+                    }
+                    else
+                    {
+                        cursor.obj = cursor.right.head.obj;
+                        cursor.left = cursor.right.head.left;
+                        cursor.right = cursor.right.head.right;
+                    }
+                    break;
+                case 2:
+                    E successor = cursor.right.transverse().next();
+                    cursor.obj = successor;
+                    cursor.right.remove(successor);
+                default:
+                    break;
+            }
+        }
+    }
+
     protected class Node
     {
         public E obj;
-        public BinarySearchTree<E> left;
-        public BinarySearchTree<E> right;
+        public WinstonLeeBinarySearchTree<E> left;
+        public WinstonLeeBinarySearchTree<E> right;
 
         public Node(E value)
         {
             obj = value;
-            left = new BinarySearchTree<E>();
-            right = new BinarySearchTree<E>();
+            left = new WinstonLeeBinarySearchTree<>();
+            right = new WinstonLeeBinarySearchTree<>();
+        }
+
+        public int deg()
+        {
+            int degree = 0;
+            if (left.head.obj != null)
+                degree++;
+            if (right.head.obj != null)
+                degree++;
+            return degree;
         }
     }
 }
