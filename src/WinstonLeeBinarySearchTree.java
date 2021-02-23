@@ -17,9 +17,9 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
         {
             WinstonLeeBinarySearchTree<E> cursor = this;
             if (cursor.head.obj.compareTo(data) > 0)
-                return cursor.head.right.search(data);
-            else
                 return cursor.head.left.search(data);
+            else
+                return cursor.head.right.search(data);
         }
     }
 
@@ -31,9 +31,9 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
         {
             WinstonLeeBinarySearchTree<E> cursor = this;
             if (cursor.head.obj.compareTo(data) > 0)
-                cursor.head.right.add(data);
-            else
                 cursor.head.left.add(data);
+            else
+                cursor.head.right.add(data);
         }
     }
 
@@ -51,8 +51,10 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
         {
             case INORDER_MODE:
                 inorderTransverse().forEachRemaining(node -> elements.add(node.obj));
+                break;
             case PREORDER_MODE:
                 preorderTransverse().forEachRemaining(node -> elements.add(node.obj));
+                break;
             case POSTORDER_MODE:
                 postorderTransverse().forEachRemaining(node -> elements.add(node.obj));
             default:
@@ -64,10 +66,10 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
     protected Iterator<Node> inorderTransverse()
     {
         LinkedList<Node> nodes = new LinkedList<Node>();
-        if (head.left.head != null)
+        if (head.left.head != null && head.left.head.obj != null)
             head.left.inorderTransverse().forEachRemaining(nodes::add);
         nodes.add(head);
-        if (head.right.head != null)
+        if (head.right.head != null && head.right.head.obj != null)
             head.right.inorderTransverse().forEachRemaining(nodes::add);
         return nodes.iterator();
     }
@@ -76,9 +78,9 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
     {
         LinkedList<Node> nodes = new LinkedList<Node>();
         nodes.add(head);
-        if (head.left.head != null)
+        if (head.left.head != null && head.left.head.obj != null)
             head.left.preorderTransverse().forEachRemaining(nodes::add);
-        if (head.right.head != null)
+        if (head.right.head != null && head.right.head.obj != null)
             head.right.preorderTransverse().forEachRemaining(nodes::add);
         return nodes.iterator();
     }
@@ -86,9 +88,9 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
     protected Iterator<Node> postorderTransverse()
     {
         LinkedList<Node> nodes = new LinkedList<Node>();
-        if (head.left.head != null)
+        if (head.left.head != null && head.left.head.obj != null)
             head.left.postorderTransverse().forEachRemaining(nodes::add);
-        if (head.right.head != null)
+        if (head.right.head != null && head.right.head.obj != null)
             head.right.postorderTransverse().forEachRemaining(nodes::add);
         nodes.add(head);
         return nodes.iterator();
@@ -107,7 +109,7 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
                     cursor.obj = null;
                     break;
                 case 1:
-                    if (cursor.left.head.obj != null)
+                    if (cursor.left.head != null && cursor.left.head.obj != null)
                     {
                         cursor.obj = cursor.left.head.obj;
                         cursor.right = cursor.left.head.right;
@@ -124,6 +126,7 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
                     E successor = cursor.right.transverse().next();
                     cursor.obj = successor;
                     cursor.right.remove(successor);
+                    break;
                 default:
                     break;
             }
@@ -146,9 +149,9 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
         public int deg()
         {
             int degree = 0;
-            if (left.head.obj != null)
+            if (left.head != null)
                 degree++;
-            if (right.head.obj != null)
+            if (right.head != null)
                 degree++;
             return degree;
         }
