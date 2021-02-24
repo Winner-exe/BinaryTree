@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
+public class WinstonLeeBinarySearchTree<E extends Comparable<E>> implements Iterable<E>
 {
     protected Node head;
     public static final int INORDER_MODE = 0;
@@ -39,14 +39,19 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
 
     public Iterator<E> transverse()
     {
-        LinkedList<E> elements = new LinkedList<E>();
+        LinkedList<E> elements = new LinkedList<>();
         inorderTransverse().forEachRemaining(node -> elements.add(node.obj));
         return elements.iterator();
     }
 
+    public Iterator<E> iterator()
+    {
+        return transverse();
+    }
+
     public Iterator<E> transverse(int mode)
     {
-        LinkedList<E> elements = new LinkedList<E>();
+        LinkedList<E> elements = new LinkedList<>();
         switch (mode)
         {
             case INORDER_MODE:
@@ -65,7 +70,7 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
 
     protected Iterator<Node> inorderTransverse()
     {
-        LinkedList<Node> nodes = new LinkedList<Node>();
+        LinkedList<Node> nodes = new LinkedList<>();
         if (head.left.head != null && head.left.head.obj != null)
             head.left.inorderTransverse().forEachRemaining(nodes::add);
         nodes.add(head);
@@ -76,7 +81,7 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
 
     protected Iterator<Node> preorderTransverse()
     {
-        LinkedList<Node> nodes = new LinkedList<Node>();
+        LinkedList<Node> nodes = new LinkedList<>();
         nodes.add(head);
         if (head.left.head != null && head.left.head.obj != null)
             head.left.preorderTransverse().forEachRemaining(nodes::add);
@@ -87,7 +92,7 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>>
 
     protected Iterator<Node> postorderTransverse()
     {
-        LinkedList<Node> nodes = new LinkedList<Node>();
+        LinkedList<Node> nodes = new LinkedList<>();
         if (head.left.head != null && head.left.head.obj != null)
             head.left.postorderTransverse().forEachRemaining(nodes::add);
         if (head.right.head != null && head.right.head.obj != null)
