@@ -52,18 +52,11 @@ public class WinstonLeeBinarySearchTree<E extends Comparable<E>> implements Iter
     public Iterator<E> transverse(int mode)
     {
         LinkedList<E> elements = new LinkedList<>();
-        switch (mode)
-        {
-            case INORDER_MODE:
-                inorderTransverse().forEachRemaining(node -> elements.add(node.obj));
-                break;
-            case PREORDER_MODE:
-                preorderTransverse().forEachRemaining(node -> elements.add(node.obj));
-                break;
-            case POSTORDER_MODE:
-                postorderTransverse().forEachRemaining(node -> elements.add(node.obj));
-            default:
-                break;
+        switch (mode) {
+            case INORDER_MODE -> inorderTransverse().forEachRemaining(node -> elements.add(node.obj));
+            case PREORDER_MODE -> preorderTransverse().forEachRemaining(node -> elements.add(node.obj));
+            case POSTORDER_MODE -> postorderTransverse().forEachRemaining(node -> elements.add(node.obj));
+            default -> throw new IllegalArgumentException();
         }
         return elements.iterator();
     }
